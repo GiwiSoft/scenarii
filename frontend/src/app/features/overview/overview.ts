@@ -69,26 +69,53 @@ export class OverviewComponent implements OnInit, OnDestroy {
     return (totals.passed / totals.runs) * 100;
   }
 
-  // Seven rows (one per weekday), each holding one cell per week. Aligns the
-  // final day of the window with today's weekday.
-  get heatmapRows(): HeatCell[][] {
+  // Seven cells per row, one row per week, aligned to Sunday like a wall calendar.
+  get heatmapWeeks(): HeatCell[][] {
     const daily = this.data?.daily ?? [];
     if (daily.length === 0) return [];
-    const rows: HeatCell[][] = Array.from({ length: 7 }, () => []);
+    const weeks: HeatCell[][] = [];
+    let week: HeatCell[] = [];
     const firstWeekday = new Date(`${daily[0].date}T00:00:00Z`).getUTCDay();
+    const empty = (): HeatCell => ({ date: '', total: 0, passed: 0, level: 0, empty: true });
+    for (let weekday = 0; weekday < firstWeekday; weekday++) week.push(empty());
     for (const day of daily) {
-      const weekday = new Date(`${day.date}T00:00:00Z`).getUTCDay();
-      rows[weekday].push(this.toCell(day));
+      week.push(this.toCell(day));
+      if (week.length === 7) {
+        weeks.push(week);
+        week = [];
+      }
     }
-    // Days before the window start leave a gap in the first week column.
-    for (let weekday = 0; weekday < firstWeekday; weekday++) {
-      rows[weekday].unshift({ date: '', total: 0, passed: 0, level: 0, empty: true });
+    if (week.length > 0) {
+      while (week.length < 7) week.push(empty());
+      weeks.push(week);
     }
-    return rows;
+    return weeks;
   }
 
   get weekdayLabels(): string[] {
-    return ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    return ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  }
+
+  private get checkedDays(): DailyPassRate[] {
+    return (this.data?.daily ?? []).filter((day) => day.total > 0);
+  }
+
+  get bestDay(): DailyPassRate | null {
+    return this.checkedDays.reduce<DailyPassRate | null>(
+      (best, day) => (!best || day.passed / day.total >= best.passed / best.total ? day : best),
+      null,
+    );
+  }
+
+  get worstDay(): DailyPassRate | null {
+    return this.checkedDays.reduce<DailyPassRate | null>(
+      (worst, day) => (!worst || day.passed / day.total <= worst.passed / worst.total ? day : worst),
+      null,
+    );
+  }
+
+  get perfectDays(): number {
+    return this.checkedDays.filter((day) => day.passed === day.total).length;
   }
 
   private toCell(day: DailyPassRate): HeatCell {

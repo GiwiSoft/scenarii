@@ -52,6 +52,7 @@ const en: Catalogue = {
 
   // ── Password recovery ──────────────────────────────────────────────────────
   'auth.reset_requested': 'If the account exists, a recovery link has been sent',
+  'auth.reset_no_email': 'Email recovery is not configured. Ask an administrator to reset your password.',
   'auth.reset_sent': 'Password recovery link sent',
   'auth.reset_invalid_token': 'This recovery link is invalid or has expired',
   'auth.reset_done': 'Password updated, you can sign in now',
@@ -148,6 +149,7 @@ const fr: Catalogue = {
   'auth.totp_secret_invalidated': 'Configuration annulée, scannez à nouveau pour obtenir un nouveau secret',
 
   'auth.reset_requested': 'Si le compte existe, un lien de récupération a été envoyé',
+  'auth.reset_no_email': 'La récupération par e-mail n’est pas configurée. Demandez à un administrateur de réinitialiser votre mot de passe.',
   'auth.reset_sent': 'Lien de récupération envoyé',
   'auth.reset_invalid_token': 'Ce lien de récupération est invalide ou a expiré',
   'auth.reset_done': 'Mot de passe mis à jour, vous pouvez vous connecter',
@@ -240,6 +242,7 @@ const es: Catalogue = {
   'auth.totp_secret_invalidated': 'Configuración cancelada, escanea de nuevo para obtener un secreto nuevo',
 
   'auth.reset_requested': 'Si la cuenta existe, se ha enviado un enlace de recuperación',
+  'auth.reset_no_email': 'La recuperación por correo no está configurada. Pide a un administrador que restablezca tu contraseña.',
   'auth.reset_sent': 'Enlace de recuperación enviado',
   'auth.reset_invalid_token': 'Este enlace de recuperación no es válido o ha caducado',
   'auth.reset_done': 'Contraseña actualizada, ya puedes iniciar sesión',
@@ -332,6 +335,7 @@ const de: Catalogue = {
   'auth.totp_secret_invalidated': 'Einrichtung abgebrochen, erneut scannen für ein neues Geheimnis',
 
   'auth.reset_requested': 'Falls das Konto existiert, wurde ein Wiederherstellungslink gesendet',
+  'auth.reset_no_email': 'Die Wiederherstellung per E-Mail ist nicht eingerichtet. Bitte einen Administrator, das Passwort zurückzusetzen.',
   'auth.reset_sent': 'Wiederherstellungslink gesendet',
   'auth.reset_invalid_token': 'Dieser Wiederherstellungslink ist ungültig oder abgelaufen',
   'auth.reset_done': 'Passwort aktualisiert, du kannst dich jetzt anmelden',

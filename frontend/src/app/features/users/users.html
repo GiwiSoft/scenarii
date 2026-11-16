@@ -1,11 +1,11 @@
-<div class="container py-4">
-  <div class="d-flex align-items-center justify-content-between mb-4">
+<div>
+  <div class="page-head">
     <div>
-      <h1 class="h4 mb-1"><i class="bi bi-people me-2"></i>{{ t('users.title') }}</h1>
-      <p class="text-secondary small mb-0">{{ t('users.subtitle') }}</p>
+      <h1 class="page-title">{{ t('users.title') }}</h1>
+      <p class="section-meta" style="margin: 4px 0 0">{{ t('users.subtitle') }}</p>
     </div>
-    <button class="btn btn-sm btn-outline-secondary border-0" (click)="load()" [title]="t('common.refresh')">
-      <i class="bi bi-arrow-clockwise"></i>
+    <button class="btn-icon" type="button" (click)="load()" [title]="t('common.refresh')" [attr.aria-label]="t('common.refresh')">
+      <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
     </button>
   </div>
 
@@ -19,7 +19,7 @@
   <!-- Add user -->
   <div class="card mb-4">
     <div class="card-body">
-      <h2 class="h6 mb-3"><i class="bi bi-person-plus me-2"></i>{{ t('users.add') }}</h2>
+      <h2 class="h6 mb-3">{{ t('users.add') }}</h2>
       <div class="row g-2 align-items-end">
         <div class="col-12 col-md-4">
           <label class="form-label small text-secondary" for="new-username">{{ t('users.username') }}</label>
@@ -57,7 +57,7 @@
             (click)="add()"
             [disabled]="busy === 'add' || !newUsername.trim()"
           >
-            <i class="bi bi-plus-lg me-1"></i>{{ t('users.add_action') }}
+            {{ t('users.add_action') }}
           </button>
         </div>
       </div>
@@ -85,8 +85,8 @@
           </tr>
           <tr *ngFor="let u of users">
             <td>
-              <i class="bi bi-person-circle me-2 text-secondary"></i>{{ u.username }}
-              <span class="badge text-bg-secondary ms-2" *ngIf="u.username === me">{{ t('users.you') }}</span>
+              {{ u.username }}
+              <span class="badge ms-2" *ngIf="u.username === me">{{ t('users.you') }}</span>
             </td>
             <td>
               <select
@@ -104,20 +104,24 @@
             <td class="small text-secondary">{{ u.created_at | langDate: 'numeric' }}</td>
             <td class="text-end">
               <button
-                class="btn btn-sm btn-outline-secondary border-0"
+                class="btn-icon"
+                type="button"
                 (click)="resetPassword(u)"
                 [disabled]="busy === u.username"
                 [title]="t('users.reset_password')"
+                [attr.aria-label]="t('users.reset_password')"
               >
-                <i class="bi bi-key"></i>
+                <i class="bi bi-key" aria-hidden="true"></i>
               </button>
               <button
-                class="btn btn-sm btn-outline-danger border-0"
+                class="btn-icon is-danger"
+                type="button"
                 (click)="remove(u)"
                 [disabled]="busy === u.username || u.username === me"
                 [title]="u.username === me ? t('users.own_delete') : t('users.delete_user')"
+                [attr.aria-label]="u.username === me ? t('users.own_delete') : t('users.delete_user')"
               >
-                <i class="bi bi-trash"></i>
+                <i class="bi bi-trash" aria-hidden="true"></i>
               </button>
             </td>
           </tr>

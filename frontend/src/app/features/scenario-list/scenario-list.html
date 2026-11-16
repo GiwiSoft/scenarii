@@ -1,40 +1,56 @@
-<div class="d-flex flex-wrap align-items-center gap-3 mb-4">
-  <h1 class="h4 mb-0">{{ t('list.title') }}</h1>
-  <span class="badge bg-secondary rounded-pill fs-6" *ngIf="scenarios.length">{{
-    scenarios.length
-  }}</span>
-  <div class="d-flex flex-wrap gap-2 ms-md-auto">
-    <select class="form-select form-select-sm" style="width:auto" [(ngModel)]="groupFilter" (ngModelChange)="fetchScenarios()" *ngIf="allGroups.length">
-      <option value="">{{ t('list.all_groups') }}</option>
-      <option *ngFor="let g of allGroups" [value]="g">{{ g }}</option>
-    </select>
-    <select class="form-select form-select-sm" style="width:auto" [(ngModel)]="tagFilter" (ngModelChange)="fetchScenarios()" *ngIf="allTags.length">
-      <option value="">{{ t('list.all_tags') }}</option>
-      <option *ngFor="let t of allTags" [value]="t">{{ t }}</option>
-    </select>
-    <a
-      class="btn btn-sm btn-outline-primary"
-      routerLink="/scenario/new"
-      [title]="t('list.new_title')"
-    >
-      <i class="bi bi-plus-lg me-1"></i>{{ t('list.new') }}
-    </a>
-    <button
-      class="btn btn-sm btn-outline-primary"
-      (click)="importInput.click()"
-      [disabled]="importing"
-      [title]="t('list.import_title')"
-    >
-      <i class="bi bi-upload me-1"></i>{{ importing ? t('list.importing') : t('list.import') }}
-    </button>
-    <button
-      class="btn btn-sm btn-outline-primary"
-      (click)="fetchScenarios()"
-      [disabled]="fetching"
-      [title]="t('common.refresh')"
-    >
-      <i class="bi bi-arrow-clockwise"></i>
-    </button>
+<div class="page-head">
+  <h1 class="page-title">
+    {{ t('list.title') }}
+    <span class="page-count" *ngIf="scenarios.length">{{ scenarios.length }}</span>
+  </h1>
+
+  <div class="page-actions">
+    <div class="filter-group">
+      <select
+        class="form-select form-select-sm"
+        [(ngModel)]="groupFilter"
+        (ngModelChange)="fetchScenarios()"
+        *ngIf="allGroups.length"
+        [attr.aria-label]="t('list.all_groups')"
+      >
+        <option value="">{{ t('list.all_groups') }}</option>
+        <option *ngFor="let g of allGroups" [value]="g">{{ g }}</option>
+      </select>
+      <select
+        class="form-select form-select-sm"
+        [(ngModel)]="tagFilter"
+        (ngModelChange)="fetchScenarios()"
+        *ngIf="allTags.length"
+        [attr.aria-label]="t('list.all_tags')"
+      >
+        <option value="">{{ t('list.all_tags') }}</option>
+        <option *ngFor="let t of allTags" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+    <div class="action-group">
+      <a class="btn btn-sm btn-primary" routerLink="/scenario/new" [title]="t('list.new_title')">
+        {{ t('list.new') }}
+      </a>
+      <button
+        class="btn btn-sm btn-outline-secondary"
+        type="button"
+        (click)="importInput.click()"
+        [disabled]="importing"
+        [title]="t('list.import_title')"
+      >
+        {{ importing ? t('list.importing') : t('list.import') }}
+      </button>
+      <button
+        class="btn-icon"
+        type="button"
+        (click)="fetchScenarios()"
+        [disabled]="fetching"
+        [title]="t('common.refresh')"
+        [attr.aria-label]="t('common.refresh')"
+      >
+        <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+      </button>
+    </div>
     <input
       #importInput
       type="file"
@@ -48,110 +64,135 @@
 <div [class]="'alert alert-' + importTone + ' py-2 px-3 small'" *ngIf="importMsg">
   <i
     class="bi me-1"
+    aria-hidden="true"
     [class.bi-check-circle]="importTone === 'success'"
     [class.bi-exclamation-triangle]="importTone !== 'success'"
   ></i>{{ importMsg }}
 </div>
 
-<div class="row g-3 mb-4" *ngIf="scenarios.length">
-  <div class="col-md-4">
-    <div class="card border-0 shadow-sm text-center p-3">
-      <div class="fs-3 fw-bold">{{ scenarios.length }}</div>
-      <div class="small text-secondary text-uppercase">{{ t('list.title') }}</div>
-    </div>
+<div class="summary-strip is-three" *ngIf="scenarios.length">
+  <div class="summary-item">
+    <div class="summary-value">{{ scenarios.length }}</div>
+    <div class="summary-label">{{ t('list.title') }}</div>
   </div>
-  <div class="col-md-4">
-    <div class="card border-0 shadow-sm text-center p-3">
-      <div class="fs-3 fw-bold text-success">{{ healthyCount }}</div>
-      <div class="small text-secondary text-uppercase">{{ t('list.healthy') }}</div>
-    </div>
+  <div class="summary-item">
+    <div class="summary-value">{{ healthyCount }}</div>
+    <div class="summary-label">{{ t('list.healthy') }}</div>
   </div>
-  <div class="col-md-4">
-    <div class="card border-0 shadow-sm text-center p-3">
-      <div class="fs-3 fw-bold text-danger">{{ unhealthyCount }}</div>
-      <div class="small text-secondary text-uppercase">{{ t('list.unhealthy') }}</div>
-    </div>
+  <div class="summary-item">
+    <div class="summary-value">{{ unhealthyCount }}</div>
+    <div class="summary-label">{{ t('list.unhealthy') }}</div>
   </div>
 </div>
 
-<div class="card border-0 shadow-sm py-5 text-center text-secondary" *ngIf="loading">
-  <i class="bi bi-hourglass-split fs-2 mb-2 d-block"></i>
-  {{ t('list.loading') }}
+<div class="card" *ngIf="loading">
+  <div class="empty-state">{{ t('list.loading') }}</div>
 </div>
 
-<div
-  class="card border-0 shadow-sm py-5 text-center text-secondary"
-  *ngIf="!loading && scenarios.length === 0"
->
-  <i class="bi bi-inbox fs-2 mb-2 d-block"></i>
-  {{ t('list.empty') }}
+<div class="card" *ngIf="!loading && scenarios.length === 0">
+  <div class="empty-state">{{ t('list.empty') }}</div>
 </div>
 
-<div class="card border-0 shadow-sm" *ngIf="scenarios.length">
+<div class="card" *ngIf="scenarios.length">
   <div class="table-responsive">
-    <table class="table table-hover mb-0">
-      <thead class="table-light">
+    <table class="table table-hover">
+      <thead>
         <tr>
           <th>{{ t('list.column_scenario') }}</th>
-          <th>{{ t('list.column_group') }}</th>
-          <th>{{ t('list.column_tags') }}</th>
-          <th>{{ t('list.column_depends') }}</th>
+          <th class="col-group">{{ t('list.column_group') }}</th>
+          <th class="col-tags">{{ t('list.column_tags') }}</th>
+          <th class="col-depends">{{ t('list.column_depends') }}</th>
           <th>{{ t('list.column_status') }}</th>
-          <th>{{ t('list.column_last_run') }}</th>
-          <th>{{ t('list.column_duration') }}</th>
-          <th>{{ t('list.column_runs') }}</th>
+          <th class="col-last">{{ t('list.column_last_run') }}</th>
+          <th class="text-end col-duration">{{ t('list.column_duration') }}</th>
+          <th class="text-end col-runs">{{ t('list.column_runs') }}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let s of scenarios">
-          <td class="fw-semibold"><a [routerLink]="['/scenario', s.name]" class="text-decoration-none">{{ s.name }}</a></td>
           <td>
-            <span class="badge bg-secondary me-1" style="font-size:.7rem" *ngIf="s.group">{{ s.group }}</span>
-            <span class="text-secondary small" *ngIf="!s.group">—</span>
+            <a [routerLink]="['/scenario', s.name]" class="row-title">{{ s.name }}</a>
           </td>
-          <td>
-            <span class="badge bg-info me-1" *ngFor="let tag of (s.tags || [])" style="font-size:.7rem">{{ tag }}</span>
-            <span class="text-secondary small" *ngIf="!s.tags?.length">—</span>
+          <td class="col-group">
+            <span class="text-secondary small" *ngIf="s.group">{{ s.group }}</span>
+            <span class="text-secondary small" *ngIf="!s.group">&mdash;</span>
           </td>
-          <td class="small text-secondary">{{ s.depends_on || '—' }}</td>
+          <td class="col-tags">
+            <span class="tag-row" *ngIf="s.tags?.length">
+              <span class="tag" *ngFor="let tag of s.tags">{{ tag }}</span>
+            </span>
+            <span class="text-secondary small" *ngIf="!s.tags?.length">&mdash;</span>
+          </td>
+          <td class="mono col-depends">{{ s.depends_on || '—' }}</td>
           <td>
             <span
-              class="badge"
-              [class.bg-success]="s.last_success === 1"
-              [class.bg-danger]="s.last_success === 0"
-              [class.bg-secondary]="s.last_success === null"
+              class="status"
+              [class.is-pass]="s.last_success === 1"
+              [class.is-fail]="s.last_success === 0"
             >
               {{ s.last_success === 1 ? t('common.pass') : s.last_success === 0 ? t('common.fail') : '—' }}
             </span>
           </td>
-          <td class="text-body-secondary small">
+          <td class="small text-secondary col-last">
             {{ s.last_run ? (s.last_run | langDate: 'short') : '—' }}
           </td>
-          <td class="font-monospace small">
-            {{ s.last_duration_ms ? s.last_duration_ms + 'ms' : '—' }}
+          <td class="text-end mono col-duration">
+            {{ s.last_duration_ms ? (s.last_duration_ms | number) + ' ms' : '—' }}
           </td>
-          <td class="font-monospace small">{{ s.total_runs }}</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-success me-1" (click)="runNow(s.name)" [disabled]="running === s.name" [title]="t('list.run_now')">
-              <i class="bi bi-send-fill"></i>{{ running === s.name ? '...' : '' }}
-            </button>
-            <button class="btn btn-sm btn-outline-danger me-1" (click)="cancelRun(s.name)" *ngIf="cancelling === s.name" disabled [title]="t('list.cancel')">
-              <i class="bi bi-stop-fill"></i>
-            </button>
-            <button
-              class="btn btn-sm me-1"
-              [class.btn-outline-warning]="!s.paused"
-              [class.btn-outline-success]="s.paused"
-              (click)="togglePause(s)"
-              *ngIf="s.scheduled"
-              [title]="s.paused ? t('list.resume') : t('list.pause')"
-            >
-              <i class="bi" [class.bi-pause-fill]="!s.paused" [class.bi-play-fill]="s.paused"></i>
-            </button>
-            <a [routerLink]="['/scenario', s.name]" class="btn btn-sm btn-outline-primary" [title]="t('list.details')">
-              <i class="bi bi-graph-up"></i>
-            </a>
+          <td class="text-end mono col-runs">{{ s.total_runs | number }}</td>
+          <td>
+            <div class="row-actions">
+              <button
+                class="btn-icon"
+                type="button"
+                (click)="runNow(s.name)"
+                [disabled]="running === s.name"
+                [title]="t('list.run_now')"
+                [attr.aria-label]="t('list.run_now')"
+              >
+                <span
+                  class="spinner-border spinner-border-sm"
+                  *ngIf="running === s.name"
+                  aria-hidden="true"
+                ></span>
+                <i class="bi bi-play-fill" *ngIf="running !== s.name" aria-hidden="true"></i>
+              </button>
+              <button
+                class="btn-icon is-danger"
+                type="button"
+                (click)="cancelRun(s.name)"
+                *ngIf="cancelling === s.name"
+                disabled
+                [title]="t('list.cancel')"
+                [attr.aria-label]="t('list.cancel')"
+              >
+                <i class="bi bi-stop-fill" aria-hidden="true"></i>
+              </button>
+              <button
+                class="btn-icon"
+                type="button"
+                (click)="togglePause(s)"
+                *ngIf="s.scheduled"
+                [title]="s.paused ? t('list.resume') : t('list.pause')"
+                [attr.aria-label]="s.paused ? t('list.resume') : t('list.pause')"
+              >
+                <i
+                  class="bi"
+                  aria-hidden="true"
+                  [class.bi-pause]="!s.paused"
+                  [class.bi-play]="s.paused"
+                ></i>
+              </button>
+              <a
+                [routerLink]="['/scenario', s.name]"
+                class="btn-icon"
+                [title]="t('list.details')"
+                [attr.aria-label]="t('list.details')"
+              >
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
           </td>
         </tr>
       </tbody>

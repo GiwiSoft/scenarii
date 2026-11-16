@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   inject,
 } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nService } from '../../shared/i18n';
@@ -36,7 +36,7 @@ interface ScenarioInfo {
 @Component({
   selector: 'app-scenario-list',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule, RouterModule, LangDatePipe],
+  imports: [NgFor, NgIf, DecimalPipe, FormsModule, RouterModule, LangDatePipe],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './scenario-list.html',
   styleUrl: './scenario-list.css',

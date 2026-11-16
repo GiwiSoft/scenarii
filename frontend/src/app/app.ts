@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, computed, effect, inject, untracked } from '@angular/core';
-import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { AuthService } from './shared/auth';
 import { I18nService, normalizeLang } from './shared/i18n';
@@ -8,7 +8,7 @@ import { normalizeColorScheme, ThemeService } from './shared/theme';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NgIf],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -25,6 +25,13 @@ export class App implements OnInit {
   authDisabled = computed(() => this.status().provider === null);
   ready = this.auth.ready;
   router = inject(Router);
+  // Mobile navigation panel; every link closes it.
+  menuOpen = false;
+
+  // /login can carry ?next= or ?reset=, so compare the path and not the whole URL.
+  get isLoginRoute(): boolean {
+    return this.router.url.split('?')[0] === '/login';
+  }
 
   // Bound so the template can call `t('key')`.
   readonly t = this.i18n.t;

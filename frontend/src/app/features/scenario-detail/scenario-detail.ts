@@ -7,7 +7,7 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { NgFor, NgIf, JsonPipe, NgClass } from '@angular/common';
+import { NgFor, NgIf, JsonPipe, NgClass, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Chart from 'chart.js/auto';
 import { onScenarioRun, removeScenarioRunListener, onStepProgress, removeStepProgressListener } from '../../shared/ws';
@@ -104,7 +104,7 @@ interface ScenarioDetail {
 @Component({
   selector: 'app-scenario-detail',
   standalone: true,
-  imports: [NgFor, NgIf, RouterModule, LangDatePipe, JsonPipe, FormsModule, NgClass],
+  imports: [NgFor, NgIf, RouterModule, LangDatePipe, JsonPipe, FormsModule, NgClass, DecimalPipe],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './scenario-detail.html',
   styleUrl: './scenario-detail.css',
@@ -417,10 +417,10 @@ export class ScenarioDetailComponent implements OnInit, OnDestroy {
       if (history.length === 0) return;
 
       const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-      const gridColor = isDark ? '#262b33' : '#e0e0e0';
-      const textColor = isDark ? '#99a1ad' : '#666';
-      const accent = isDark ? '#c6ff3d' : '#6366f1';
-      const green = isDark ? '#b7f34a' : '#10b981';
+      const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(23,23,23,0.08)';
+      const textColor = isDark ? '#85858b' : '#737373';
+      const accent = isDark ? '#f0a63a' : '#b45309';
+      const green = isDark ? '#4cc38a' : '#15803d';
 
       const labels = history.map((r) => new Date(r.started_at).toLocaleString()).reverse();
       const durations = history.map((r) => r.duration_ms).reverse();
@@ -509,8 +509,8 @@ export class ScenarioDetailComponent implements OnInit, OnDestroy {
 
       if (this.detail.stepNames.length > 1) {
         const stepColors = isDark
-          ? ['#c6ff3d', '#b7f34a', '#ff6b6b', '#ffb020', '#8cc8ff', '#f778ba']
-          : ['#6366f1', '#10b981', '#f43f5e', '#f59e0b', '#a855f7', '#ec4899'];
+          ? ['#f0a63a', '#8fa3b8', '#b7a27a', '#7f9c8a', '#c47a5a', '#8b7fa8']
+          : ['#b45309', '#3f6f94', '#7a6a45', '#3f7a5f', '#a0523f', '#6b5f8a'];
         const datasets = this.detail.stepNames.map((stepName, i) => {
           const data = history
             .map((run) => {

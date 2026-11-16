@@ -1,3 +1,3 @@
 title: Scenarii
-description: Execute periodic YAML-defined web test scenarios
+description: Self-hosted HTTP and browser checks from YAML on a cron.
 theme: jekyll-theme-cayman

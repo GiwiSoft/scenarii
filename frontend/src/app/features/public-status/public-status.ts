@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, DecimalPipe } from '@angular/common';
 import Chart from 'chart.js/auto';
 import { I18nService } from '../../shared/i18n';
 
@@ -43,7 +43,7 @@ interface ScenarioStatus {
 @Component({
   standalone: true,
   selector: 'app-public-status',
-  imports: [NgIf, NgFor, RouterModule],
+  imports: [NgIf, NgFor, DecimalPipe, RouterModule],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './public-status.html',
   styleUrl: './public-status.css',
@@ -98,10 +98,10 @@ export class PublicStatusComponent implements OnInit, OnDestroy {
     if (!this.scenario || this.scenario.history.length === 0) return;
 
     const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-    const gridColor = isDark ? '#262b33' : '#e0e0e0';
-    const textColor = isDark ? '#99a1ad' : '#666';
-    const accent = isDark ? '#c6ff3d' : '#6366f1';
-    const green = isDark ? '#b7f34a' : '#10b981';
+    const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(23,23,23,0.08)';
+    const textColor = isDark ? '#85858b' : '#737373';
+    const accent = isDark ? '#f0a63a' : '#b45309';
+    const green = isDark ? '#4cc38a' : '#15803d';
 
     const labels = this.scenario.history.map(r => new Date(r.started_at).toLocaleString()).reverse();
     const durations = this.scenario.history.map(r => r.duration_ms).reverse();

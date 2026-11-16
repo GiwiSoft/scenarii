@@ -1,60 +1,65 @@
-<div class="d-flex align-items-center gap-2 mb-3">
-  <a routerLink="/scenarios" class="btn btn-sm btn-outline-secondary">
-    <i class="bi bi-arrow-left"></i>
+<div class="detail-toolbar">
+  <a routerLink="/scenarios" class="btn-icon" [title]="t('common.back')" [attr.aria-label]="t('common.back')">
+    <i class="bi bi-arrow-left" aria-hidden="true"></i>
   </a>
-  <button class="btn btn-sm btn-outline-primary" (click)="refresh()" [disabled]="loading">
-    <i class="bi bi-arrow-clockwise"></i>
+  <button class="btn-icon" type="button" (click)="refresh()" [disabled]="loading" [title]="t('common.refresh')" [attr.aria-label]="t('common.refresh')">
+    <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
   </button>
-  <button class="btn btn-sm btn-outline-secondary" (click)="openCompare()" *ngIf="detail && detail.history.length > 1" [title]="t('detail.compare_title')">
-    <i class="bi bi-columns-gap me-1"></i>{{ t('detail.compare') }}
+  <button class="btn btn-sm btn-outline-secondary" type="button" (click)="openCompare()" *ngIf="detail && detail.history.length > 1" [title]="t('detail.compare_title')">
+    {{ t('detail.compare') }}
   </button>
-  <button class="btn btn-sm btn-outline-success" (click)="runNow()" [disabled]="running" [title]="t('list.run_now')">
-    <i class="bi bi-send-fill"></i>{{ running ? '...' : '' }}
+  <button class="btn btn-sm btn-primary" type="button" (click)="runNow()" [disabled]="running" [title]="t('list.run_now')">
+    <span class="spinner-border spinner-border-sm me-2" *ngIf="running" aria-hidden="true"></span>
+    {{ running ? '' : t('list.run_now') }}
   </button>
-  <button class="btn btn-sm btn-outline-danger" (click)="cancelRun()" *ngIf="isRunning" [title]="t('common.cancel')">
-    <i class="bi bi-stop-fill"></i>
+  <button class="btn btn-sm btn-outline-danger" type="button" (click)="cancelRun()" *ngIf="isRunning" [title]="t('common.cancel')">
+    {{ t('common.cancel') }}
   </button>
 
-  <span *ngIf="isRunning" class="small text-nowrap ms-1 d-flex align-items-center gap-1">
-    <i class="bi"
-      [class.bi-arrow-repeat]="tickerStatus==='running'"
-      [class.bi-check-circle-fill]="tickerStatus==='done'"
-      [class.bi-x-circle-fill]="tickerStatus==='error'"
-      [class.text-primary]="tickerStatus==='running'"
-      [class.text-success]="tickerStatus==='done'"
-      [class.text-danger]="tickerStatus==='error'"
-      [class.spin]="tickerStatus==='running'"
+  <span *ngIf="isRunning" class="ticker">
+    <i
+      class="bi"
+      aria-hidden="true"
+      [class.bi-arrow-repeat]="tickerStatus === 'running'"
+      [class.bi-check-circle-fill]="tickerStatus === 'done'"
+      [class.bi-x-circle-fill]="tickerStatus === 'error'"
+      [class.text-primary]="tickerStatus === 'running'"
+      [class.text-success]="tickerStatus === 'done'"
+      [class.text-danger]="tickerStatus === 'error'"
+      [class.spin]="tickerStatus === 'running'"
     ></i>
     <span>{{ tickerStep }}</span>
-    <span class="text-secondary" *ngIf="tickerResponseTime !== null">{{ tickerResponseTime }}ms</span>
+    <span class="text-secondary" *ngIf="tickerResponseTime !== null">{{ tickerResponseTime }} ms</span>
     <span class="text-danger" *ngIf="tickerError">({{ tickerError }})</span>
   </span>
 
-  <button *ngIf="detail" class="btn btn-sm btn-outline-secondary border-0 position-relative ms-auto" (click)="copyPublicLink()" [title]="t('detail.copy_public_link')">
-    <i class="bi bi-share"></i>
-    <span *ngIf="copied" class="position-absolute small bg-success text-dark rounded px-1" style="top:-8px;right:-8px;font-size:.6rem;line-height:1.2">{{ t('common.copied') }}</span>
-  </button>
-  <a class="btn btn-sm btn-outline-secondary border-0" *ngIf="detail" [routerLink]="['/scenario', scenarioName, 'edit']" [title]="t('detail.edit')">
-    <i class="bi bi-pencil"></i>
-  </a>
-  <div class="dropdown" *ngIf="detail">
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
-      <i class="bi bi-download me-1"></i>{{ t('detail.export') }}
+  <div class="toolbar-end">
+    <button *ngIf="detail" class="btn-icon" type="button" (click)="copyPublicLink()" [title]="t('detail.copy_public_link')" [attr.aria-label]="t('detail.copy_public_link')">
+      <i class="bi bi-share" aria-hidden="true"></i>
+      <span *ngIf="copied" class="copy-flag">{{ t('common.copied') }}</span>
     </button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item" [href]="exportUrl('json')" target="_blank"><i class="bi bi-filetype-json me-2"></i>JSON</a></li>
-      <li><a class="dropdown-item" [href]="exportUrl('csv')" target="_blank"><i class="bi bi-filetype-csv me-2"></i>CSV</a></li>
-      <li><a class="dropdown-item" [href]="configUrl()" target="_blank"><i class="bi bi-filetype-yml me-2"></i>YAML</a></li>
-    </ul>
+    <a class="btn-icon" *ngIf="detail" [routerLink]="['/scenario', scenarioName, 'edit']" [title]="t('detail.edit')" [attr.aria-label]="t('detail.edit')">
+      <i class="bi bi-pencil" aria-hidden="true"></i>
+    </a>
+    <div class="dropdown" *ngIf="detail">
+      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        {{ t('detail.export') }}
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" [href]="exportUrl('json')" target="_blank">JSON</a></li>
+        <li><a class="dropdown-item" [href]="exportUrl('csv')" target="_blank">CSV</a></li>
+        <li><a class="dropdown-item" [href]="configUrl()" target="_blank">YAML</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
   <h1 class="h4 mb-0">{{ detail?.info?.name }}</h1>
   <span class="small text-secondary" *ngIf="detail">
-    <span class="fw-semibold">{{ detail.info.total_runs }}</span> {{ t('list.column_runs') }} ·
-    <span class="text-success fw-semibold">{{ detail.info.passed_runs }}</span> {{ t('status.passed') }} ·
-    <span class="text-danger fw-semibold">{{ detail.info.failed_runs }}</span> {{ t('status.failed') }}
+    <span class="fw-semibold">{{ detail.info.total_runs | number }}</span> {{ t('list.column_runs') }} ·
+    <span class="text-success fw-semibold">{{ detail.info.passed_runs | number }}</span> {{ t('status.passed') }} ·
+    <span class="text-danger fw-semibold">{{ detail.info.failed_runs | number }}</span> {{ t('status.failed') }}
     <span class="ms-2" *ngIf="detail.info.depends_on">· <span class="fw-semibold">{{ t('detail.depends_on', { name: detail.info.depends_on }) }}</span></span>
   </span>
 </div>
@@ -70,41 +75,35 @@
 </div>
 
 <ng-container *ngIf="detail">
-  <div class="row g-3 mb-4">
-    <div class="col-sm-4">
-      <div class="card border-0 shadow-sm text-center p-3">
-        <div class="fs-2 fw-bold" [class.text-success]="sla >= 99" [class.text-warning]="sla >= 90 && sla < 99" [class.text-danger]="sla < 90">{{ sla }}%</div>
-        <div class="small text-secondary text-uppercase">{{ t('detail.sla') }}</div>
-      </div>
+  <div class="summary-strip is-three">
+    <div class="summary-item">
+      <div class="summary-value" [class.text-success]="sla >= 99" [class.text-warning]="sla >= 90 && sla < 99" [class.text-danger]="sla < 90">{{ sla }}%</div>
+      <div class="summary-label">{{ t('detail.sla') }}</div>
     </div>
-    <div class="col-sm-4">
-      <div class="card border-0 shadow-sm text-center p-3">
-        <div class="fs-2 fw-bold">{{ detail.info.total_runs }}</div>
-        <div class="small text-secondary text-uppercase">{{ t('detail.total_runs') }}</div>
-      </div>
+    <div class="summary-item">
+      <div class="summary-value">{{ detail.info.total_runs | number }}</div>
+      <div class="summary-label">{{ t('detail.total_runs') }}</div>
     </div>
-    <div class="col-sm-4">
-      <div class="card border-0 shadow-sm text-center p-3">
-        <div class="fs-2 fw-bold" [class.text-danger]="detail.info.failed_runs > 0">{{ detail.info.failed_runs }}</div>
-        <div class="small text-secondary text-uppercase">{{ t('detail.failed_runs') }}</div>
-      </div>
+    <div class="summary-item">
+      <div class="summary-value" [class.text-danger]="detail.info.failed_runs > 0">{{ detail.info.failed_runs | number }}</div>
+      <div class="summary-label">{{ t('detail.failed_runs') }}</div>
     </div>
   </div>
   <div class="row g-3 mb-4">
-    <div class="col-md-6">
-      <div class="card border-0 shadow-sm">
+    <div class="col-lg-8">
+      <div class="card">
         <div class="card-body">
-          <h3 class="card-title small text-secondary text-uppercase">
+          <h3 class="card-title small text-secondary">
             {{ t('detail.duration_trend') }}
           </h3>
           <div class="chart-wrapper"><canvas id="durationChart"></canvas></div>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="card border-0 shadow-sm">
+    <div class="col-lg-4">
+      <div class="card h-100">
         <div class="card-body">
-          <h3 class="card-title small text-secondary text-uppercase">{{ t('detail.success_trend') }}</h3>
+          <h3 class="card-title small text-secondary">{{ t('detail.success_trend') }}</h3>
           <div class="chart-wrapper"><canvas id="successChart"></canvas></div>
         </div>
       </div>
@@ -113,14 +112,14 @@
 
   <div class="card border-0 shadow-sm mb-4" *ngIf="detail.stepNames.length > 1">
     <div class="card-body">
-      <h3 class="card-title small text-secondary text-uppercase">{{ t('detail.step_trend') }}</h3>
+      <h3 class="card-title small text-secondary">{{ t('detail.step_trend') }}</h3>
       <div class="chart-wrapper"><canvas id="stepChart"></canvas></div>
     </div>
   </div>
 
   <div class="card border-0 shadow-sm">
     <div class="card-body">
-      <h3 class="card-title small text-secondary text-uppercase mb-3">{{ t('detail.recent_runs') }}</h3>
+      <h3 class="card-title small text-secondary mb-3">{{ t('detail.recent_runs') }}</h3>
       <div class="table-responsive">
         <table class="table table-hover table-sm mb-0">
           <thead class="table-light">
@@ -134,7 +133,7 @@
           <tbody>
              <tr *ngFor="let run of displayedRuns">
               <td class="small">{{ run.started_at | langDate: 'withSeconds' }}</td>
-              <td class="font-monospace small">{{ run.duration_ms }}ms</td>
+              <td class="font-monospace small">{{ run.duration_ms | number }} ms</td>
               <td>
                 <span
                   class="badge"

@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@lightpanda/browser": "^1.6.0",
-    "better-sqlite3": "^13.0.3",
-    "commander": "^15.0.0",
+    "better-sqlite3": "^13.2.0",
+    "commander": "^15.1.0",
     "cors": "^2.8.6",
     "express": "^5.3.0",
     "helmet": "^8.3.0",
@@ -36,16 +36,16 @@
     "pg": "^8.23.1",
     "picocolors": "^1.1.1",
     "pino": "^10.4.0",
-    "playwright-core": "^1.64.1",
+    "playwright-core": "^1.65.1",
     "qrcode": "^1.5.4",
-    "ws": "^8.22.0"
+    "ws": "^8.23.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^9.6.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "@types/node-cron": "^3.0.11",
     "@types/pg": "^8.23.1",
     "@types/pino": "^7.0.4",

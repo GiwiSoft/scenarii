@@ -3,15 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scenarii - YAML web tests on a schedule</title>
-  <meta name="description" content="Self-hosted web testing on cron. Write YAML, run HTTP or browser checks, store results in SQLite, and get alerted when something breaks.">
-  <meta name="theme-color" content="#07080a">
+  <title>Scenarii: self-hosted cron checks for web apps</title>
+  <meta name="description" content="Self-hosted HTTP and browser checks from YAML on any cron schedule. Track pass rates, latency and run diffs, and get alerts from one small server.">
+  <link rel="canonical" href="https://giwisoft.github.io/scenarii/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="GiwiSoft">
+  <meta name="theme-color" content="#101112">
   <meta name="color-scheme" content="dark">
-  <meta property="og:title" content="Scenarii - YAML web tests on a schedule">
-  <meta property="og:description" content="Write YAML. Run HTTP or browser checks on cron. Get alerted when something breaks.">
+  <link rel="sitemap" type="application/xml" href="/scenarii/sitemap.xml">
+
   <meta property="og:type" content="website">
-  <meta property="og:image" content="screenshots/scenario-list-dark.webp">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%2307080a'/%3E%3Cpath d='M3 12h3.4l2-5.4 3.3 11 2.4-7.2 1.5 1.6H21' fill='none' stroke='%23c6ff3d' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <meta property="og:site_name" content="Scenarii">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://giwisoft.github.io/scenarii/">
+  <meta property="og:title" content="Scenarii: self-hosted cron checks for web apps">
+  <meta property="og:description" content="Write YAML. Run HTTP or browser checks on cron. Track pass rates, latency and run diffs. Get alerted when something breaks.">
+  <meta property="og:image" content="https://giwisoft.github.io/scenarii/screenshots/og.webp">
+  <meta property="og:image:secure_url" content="https://giwisoft.github.io/scenarii/screenshots/og.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Scenarii scenario detail with SLA, response-time trend, success rate and step timings">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scenarii: self-hosted cron checks for web apps">
+  <meta name="twitter:description" content="YAML-defined HTTP and browser checks on a cron, with pass rates, latency, run diffs and alerts. SQLite or PostgreSQL. One small server.">
+  <meta name="twitter:image" content="https://giwisoft.github.io/scenarii/screenshots/og.webp">
+  <meta name="twitter:image:alt" content="Scenarii scenario detail with SLA, response-time trend, success rate and step timings">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://giwisoft.github.io/scenarii/#website",
+        "url": "https://giwisoft.github.io/scenarii/",
+        "name": "Scenarii",
+        "description": "Self-hosted HTTP and browser checks from YAML on any cron schedule.",
+        "publisher": { "@id": "https://giwisoft.github.io/scenarii/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://giwisoft.github.io/scenarii/#software",
+        "name": "Scenarii",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Website monitoring",
+        "operatingSystem": "Linux, macOS, Docker",
+        "url": "https://giwisoft.github.io/scenarii/",
+        "codeRepository": "https://github.com/GiwiSoft/scenarii",
+        "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+        "softwareVersion": "1.4.1",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Write YAML scenarios, run HTTP or headless browser checks on a cron, and track pass rates, latency, step timings and run diffs from a self-hosted dashboard.",
+        "screenshot": "https://giwisoft.github.io/scenarii/screenshots/hero.webp",
+        "featureList": [
+          "HTTP and headless browser checks in one YAML file",
+          "Cron schedules, time windows, dependencies and CI webhooks",
+          "Pass-rate calendar, p95 latency and flaky-scenario ranking",
+          "Run diffs, screenshots and public status pages",
+          "Alerts to Telegram, Slack, Discord, email and signed webhooks",
+          "SQLite or PostgreSQL storage with retention and backups"
+        ],
+        "publisher": { "@id": "https://giwisoft.github.io/scenarii/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://giwisoft.github.io/scenarii/#organization",
+        "name": "GiwiSoft",
+        "url": "https://giwi.fr",
+        "sameAs": ["https://github.com/GiwiSoft"]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23101112'/%3E%3Cpath d='M3 12h3.4l2-5.4 3.3 11 2.4-7.2 1.5 1.6H21' fill='none' stroke='%23f0a63a' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" as="image" href="screenshots/hero.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://analytics.giwi.fr" crossorigin>
   <link rel="stylesheet" href="assets/site.css">
   <script>
     document.documentElement.classList.add("js");
@@ -38,7 +108,7 @@
       </nav>
 
       <div class="nav-actions">
-        <a class="btn btn-ghost btn-sm" href="https://github.com/Giwi/giwisoft-scenarii">GitHub <span aria-hidden="true">&#8599;</span></a>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/GiwiSoft/scenarii">GitHub <span aria-hidden="true">&#8599;</span></a>
         <a class="btn btn-primary btn-sm" href="#install">Install</a>
         <button class="menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
       </div>
@@ -50,7 +120,7 @@
       <div class="shell hero-grid">
         <div class="hero-copy">
           <p class="kicker"><span class="live-dot" aria-hidden="true"></span> Self-hosted &middot; open source</p>
-          <h1 id="hero-title">Your web tests,<br><span class="accent">on a schedule.</span></h1>
+          <h1 id="hero-title">Your web tests,<br> <span class="accent">on a schedule.</span></h1>
           <p class="lede">Write YAML. Run HTTP or browser checks on cron. Get alerted when something breaks.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#install">Install in one line</a>
@@ -63,16 +133,9 @@
             <div class="window-bar">
               <span class="window-dots" aria-hidden="true"><span></span><span></span><span></span></span>
               <span class="window-title">scenarii / dashboard</span>
-              <span class="window-live">LIVE</span>
+              <span class="window-live">Live</span>
             </div>
-            <img src="screenshots/hero.webp" width="2485" height="1830" alt="Scenarii dashboard preview with scenario health, response-time trends, and run history" fetchpriority="high">
-          </div>
-          <div class="float-card float-run" aria-hidden="true">
-            <span class="dot-pass"></span>
-            <span><strong>RUN PASS</strong> &middot; 7/7 steps &middot; 2.4s</span>
-          </div>
-          <div class="float-card float-sla" aria-hidden="true">
-            <span><strong>cron</strong> */5 * * * *</span>
+            <img src="screenshots/hero.webp" width="2880" height="2000" alt="Scenarii scenario detail with SLA, response-time trend, success rate and step timings" fetchpriority="high" decoding="async">
           </div>
         </div>
       </div>
@@ -83,16 +146,6 @@
       <div class="run-viewport">
         <div class="run-track">
           <div class="run-group">
-            <span class="run-item" data-state="pass"><span class="dot"></span> api-health <time>204ms</time></span>
-            <span class="run-item" data-state="pass"><span class="dot"></span> lusk.bzh <time>2.4s</time></span>
-            <span class="run-item" data-state="fail"><span class="dot"></span> checkout-flow <time>1.1s</time></span>
-            <span class="run-item" data-state="pass"><span class="dot"></span> login-flow <time>3.2s</time></span>
-            <span class="run-item" data-state="pass"><span class="dot"></span> pricing-page <time>890ms</time></span>
-            <span class="run-item" data-state="warn"><span class="dot"></span> search-api <time>1.8s</time></span>
-            <span class="run-item" data-state="pass"><span class="dot"></span> status-page <time>460ms</time></span>
-            <span class="run-item" data-state="pass"><span class="dot"></span> docs-build <time>2.0s</time></span>
-          </div>
-          <div class="run-group" aria-hidden="true">
             <span class="run-item" data-state="pass"><span class="dot"></span> api-health <time>204ms</time></span>
             <span class="run-item" data-state="pass"><span class="dot"></span> lusk.bzh <time>2.4s</time></span>
             <span class="run-item" data-state="fail"><span class="dot"></span> checkout-flow <time>1.1s</time></span>
@@ -225,7 +278,7 @@ steps:
 
         <div class="bento reveal">
           <article class="tile tile-shot">
-            <img src="screenshots/public.webp" width="526" height="1050" loading="lazy" alt="Scenarii public status page with scenario health, uptime, and history">
+            <img src="screenshots/public.webp" width="1200" height="2214" loading="lazy" decoding="async" alt="Scenarii public status page for Checkout flow with SLA, run totals and response-time history">
             <div class="tile-shot-cap">
               <h3>The whole story, one screen</h3>
               <p>SLA, response-time trends, success rate, step timings, and every run in one place.</p>
@@ -526,7 +579,7 @@ steps:
             </div>
           </div>
           <div class="viewer-frame">
-            <img id="dash-image" src="screenshots/scenario-list-dark.webp" width="1280" height="900" loading="lazy" alt="Scenarii scenario list dashboard in dark theme">
+            <img id="dash-image" src="screenshots/scenario-list-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Scenarii scenario list with pass and fail status, group, tags, last run, duration and run count">
           </div>
           <div class="dash-cap">
             <div><strong>Live ticker</strong><span>Current step and response time, streamed over WebSocket.</span></div>
@@ -616,8 +669,8 @@ node dist/index.js user del bob</code></pre>
                   <span class="code-file">terminal</span>
                   <button class="copy" type="button" data-copy="code-npm">Copy</button>
                 </div>
-                <pre id="code-npm"><code>git clone https://github.com/Giwi/giwisoft-scenarii.git
-cd giwisoft-scenarii
+                <pre id="code-npm"><code>git clone https://github.com/GiwiSoft/scenarii.git
+cd scenarii
 npm install
 npm run build
 
@@ -1219,7 +1272,7 @@ scenarii_notification_delivery_total{status=<span class="tok-string">"success"</
             <h2 id="run-title">Run it on your own box.</h2>
             <p>One container. No external database. Your scenarios, results, and credentials stay on your infrastructure.</p>
             <div class="cta-actions">
-              <a class="btn btn-primary" href="https://github.com/Giwi/giwisoft-scenarii">Get Scenarii on GitHub <span aria-hidden="true">&#8599;</span></a>
+              <a class="btn btn-primary" href="https://github.com/GiwiSoft/scenarii">Get Scenarii on GitHub <span aria-hidden="true">&#8599;</span></a>
               <a class="btn btn-ghost" href="#docs">Read the reference</a>
             </div>
           </div>
@@ -1244,12 +1297,12 @@ scenarii_notification_delivery_total{status=<span class="tok-string">"success"</
           </svg>
           Scenarii
         </div>
-        <p class="footer-copy">&copy; 2026 GiwiSoft. Open source under the <a href="https://github.com/Giwi/giwisoft-scenarii/blob/main/LICENSE">GNU GPL v3.0</a>.</p>
+        <p class="footer-copy">&copy; 2026 GiwiSoft. Open source under the <a href="https://github.com/GiwiSoft/scenarii/blob/main/LICENSE">GNU GPL v3.0</a>.</p>
       </div>
       <div class="footer-links">
-        <a href="https://github.com/Giwi/giwisoft-scenarii">GitHub</a>
-        <a href="https://github.com/Giwi/giwisoft-scenarii/pkgs/container/giwisoft-scenarii">Container</a>
-        <a href="https://github.com/Giwi/giwisoft-scenarii/actions">CI</a>
+        <a href="https://github.com/GiwiSoft/scenarii">GitHub</a>
+        <a href="https://github.com/GiwiSoft/scenarii/pkgs/container/giwisoft-scenarii">Container</a>
+        <a href="https://github.com/GiwiSoft/scenarii/actions">CI</a>
         <a href="https://giwi.fr">GiwiSoft</a>
       </div>
     </div>

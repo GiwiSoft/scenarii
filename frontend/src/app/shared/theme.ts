@@ -53,6 +53,10 @@ export class ThemeService {
 
   // Writes the resolved scheme onto <html>, which the stylesheet keys off.
   private apply(): void {
-    document.documentElement.setAttribute('data-bs-theme', this.resolved());
+    const scheme = this.resolved();
+    document.documentElement.setAttribute('data-bs-theme', scheme);
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', scheme === 'dark' ? '#101112' : '#f7f7f5');
   }
 }

@@ -1,30 +1,36 @@
-<div class="d-flex align-items-center gap-2 mb-3">
-  <a
-    [routerLink]="isNew ? '/scenarios' : '/scenario/' + scenarioName"
-    class="btn btn-sm btn-outline-secondary"
-    [title]="t('editor.back_title')"
-  >
-    <i class="bi bi-arrow-left"></i>
-  </a>
-  <h1 class="h5 mb-0">{{ isNew ? t('editor.new_title') : t('editor.edit_title', { name: scenarioName }) }}</h1>
-  <div class="ms-auto d-flex gap-2">
-    <a *ngIf="isNew" class="btn btn-sm btn-outline-primary" routerLink="/scenarios" [title]="t('editor.back_to_scenarios')">
-      <i class="bi bi-list-ul"></i> {{ t('list.title') }}
+<div class="page-head">
+  <div class="editor-head">
+    <a
+      [routerLink]="isNew ? '/scenarios' : '/scenario/' + scenarioName"
+      class="btn-icon"
+      [title]="t('editor.back_title')"
+      [attr.aria-label]="t('editor.back_title')"
+    >
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
     </a>
-    <button class="btn btn-sm btn-success" (click)="save()" [disabled]="saving">
-      <i class="bi bi-floppy me-1"></i>{{ saving ? t('common.saving') : isNew ? t('editor.create') : t('common.save') }}
+    <h1 class="page-title">
+      {{ isNew ? t('editor.new_title') : t('editor.edit_title', { name: scenarioName }) }}
+    </h1>
+  </div>
+  <div class="page-actions">
+    <a *ngIf="isNew" class="btn btn-sm btn-outline-secondary" routerLink="/scenarios" [title]="t('editor.back_to_scenarios')">
+      {{ t('list.title') }}
+    </a>
+    <button class="btn btn-sm btn-primary" type="button" (click)="save()" [disabled]="saving">
+      <span class="spinner-border spinner-border-sm me-2" *ngIf="saving" aria-hidden="true"></span>
+      {{ saving ? t('common.saving') : isNew ? t('editor.create') : t('common.save') }}
     </button>
   </div>
 </div>
 
 <div class="alert alert-success" *ngIf="saved" role="alert">
-  <i class="bi bi-check-circle me-1"></i> {{ t('editor.saved') }}
+  {{ t('editor.saved') }}
 </div>
 <div class="alert alert-danger" *ngIf="error" role="alert">
-  <i class="bi bi-exclamation-triangle me-1"></i> {{ error }}
+  {{ error }}
 </div>
 
-<div class="card border-0 shadow-sm">
+<div class="card">
   <div class="card-body p-0">
     <!-- Highlighted layer under a transparent textarea: both share identical metrics. -->
     <div class="editor">
@@ -48,6 +54,5 @@
 </div>
 
 <p class="small text-secondary mt-2 mb-0">
-  <i class="bi bi-info-circle me-1"></i>
   {{ t('editor.hint') }}
 </p>

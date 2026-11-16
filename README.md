@@ -1,40 +1,54 @@
 <p align="center">
-  <img src="docs/logo.svg" alt="Scenarii" width="300">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
+    <img src="docs/logo.svg" alt="Scenarii" width="240">
+  </picture>
 </p>
 
 <p align="center">
-  YAML-defined HTTP and browser scenarios, scheduled or triggered from CI, with metrics, dashboards, and alerts.
+  Self-hosted HTTP and browser checks from YAML, on a cron, with pass rates, step timings and alerts.
 </p>
 
 <p align="center">
-  <a href="https://github.com/Giwi/giwisoft-scenarii/wiki">Documentation</a> ·
-  <a href="https://github.com/Giwi/giwisoft-scenarii/wiki/API">REST API</a> ·
-  <a href="https://github.com/Giwi/giwisoft-scenarii/wiki/Deployment">Deployment</a>
+  <a href="https://github.com/GiwiSoft/scenarii/wiki">Documentation</a> ·
+  <a href="https://github.com/GiwiSoft/scenarii/wiki/API">REST API</a> ·
+  <a href="https://github.com/GiwiSoft/scenarii/wiki/Deployment">Deployment</a>
 </p>
 
-## Highlights
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/scenario-detail-dark.webp">
+    <img src="docs/screenshots/scenario-detail.webp" alt="Scenarii scenario detail with SLA, response-time trend, success rate and step timings" width="100%">
+  </picture>
+</p>
 
-- **HTTP + browser checks** in one scenario file, using native `fetch` or Lightpanda.
-- **Scheduling and CI triggers**: cron, time windows, dependencies, API runs, GitHub/GitLab webhooks.
-- **Staging and production** from the same scenario with `--env` profiles.
-- **Alerts** on Telegram, email, Slack, Discord, Teams, ntfy, PagerDuty, and signed webhooks.
-- **Observability**: pass-rate heatmap, p95 latency, flakiest scenarios, run diffs, screenshots.
-- **SQLite or PostgreSQL** storage with retention and scheduled backups.
-- **Dashboard, REST API, scoped API tokens, OIDC, TOTP.**
+<p align="center"><sub>Scenario detail: SLA, response time, success rate and every step timing.</sub></p>
+
+## What it does
+
+- **HTTP and browser checks** in one YAML scenario, using native `fetch` or Lightpanda.
+- **Cron, time windows, dependencies, API runs** and GitHub/GitLab webhook triggers.
+- **Pass-rate calendar, p95 latency, flaky ranking**, run diffs and screenshots.
+- **Alerts** on Telegram, Slack, Discord, Teams, email, ntfy, PagerDuty and signed webhooks.
+- **SQLite or PostgreSQL**, with retention and scheduled backups.
+- **Dashboard, REST API**, scoped API tokens, OIDC and TOTP.
 
 ## Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/hero.webp" alt="Scenario detail with SLA, trends, and step timings" width="90%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/scenario-list-dark.webp">
+    <img src="docs/screenshots/scenario-list.webp" alt="Scenarii scenario list with status, group, tags, last run, duration and run count" width="90%">
+  </picture>
 </p>
 
-| Scenario list | Dark theme |
-|---------------|------------|
-| <img src="docs/screenshots/scenario-list.webp" alt="Scenario list" width="480"> | <img src="docs/screenshots/scenario-list-dark.webp" alt="Scenario list in dark theme" width="480"> |
+<p align="center"><sub>The scenario list follows the light or dark theme.</sub></p>
 
 <p align="center">
-  <img src="docs/screenshots/public.webp" alt="Public status page" width="70%">
+  <img src="docs/screenshots/public.webp" alt="Scenarii public status page with SLA, run totals and response-time history" width="42%">
 </p>
+
+<p align="center"><sub>A public status page, no sign-in required.</sub></p>
 
 ## Quick start
 
@@ -86,7 +100,7 @@ node dist/index.js trigger scenarios/smoke.yml --env staging
 | `user <action>` | Manage users (`list`, `add`, `passwd`, `role`, `del`) |
 | `config` | Generate a settings template (`-o path`) |
 
-Server options and automation examples are in the [CLI documentation](https://github.com/Giwi/giwisoft-scenarii/wiki/CLI).
+Server options and automation examples are in the [CLI documentation](https://github.com/GiwiSoft/scenarii/wiki/CLI).
 
 ## Docker
 
@@ -99,29 +113,29 @@ docker run -d --name scenarii -p 3000:3000 \
   scenarii
 ```
 
-Compose, PostgreSQL, reverse proxy, and systemd examples: [Deployment](https://github.com/Giwi/giwisoft-scenarii/wiki/Deployment).
+Compose, PostgreSQL, reverse proxy and systemd examples: [Deployment](https://github.com/GiwiSoft/scenarii/wiki/Deployment).
 
 ## Documentation
 
-The full documentation lives in the [GitHub wiki](https://github.com/Giwi/giwisoft-scenarii/wiki).
+The full documentation lives in the [GitHub wiki](https://github.com/GiwiSoft/scenarii/wiki).
 
 | Topic | Page |
 |-------|------|
-| Installation and first run | [Installation](https://github.com/Giwi/giwisoft-scenarii/wiki/Installation) |
-| First scenario walkthrough | [Getting Started](https://github.com/Giwi/giwisoft-scenarii/wiki/Getting-Started) |
-| Scenario YAML, includes, conditions | [Scenarios](https://github.com/Giwi/giwisoft-scenarii/wiki/Scenarios) |
-| HTTP and browser actions | [Actions](https://github.com/Giwi/giwisoft-scenarii/wiki/Actions) |
-| Variables, secrets, extraction | [Variables and Secrets](https://github.com/Giwi/giwisoft-scenarii/wiki/Variables-and-Secrets) |
-| Staging/production profiles | [Environments](https://github.com/Giwi/giwisoft-scenarii/wiki/Environments) |
-| Cron, pause/resume, alert thresholds | [Scheduling](https://github.com/Giwi/giwisoft-scenarii/wiki/Scheduling) |
-| Alert channels and webhook signing | [Notifications](https://github.com/Giwi/giwisoft-scenarii/wiki/Notifications) |
-| GitHub/GitLab CI triggers | [Inbound Webhooks](https://github.com/Giwi/giwisoft-scenarii/wiki/Webhooks) |
-| Endpoint reference and examples | [REST API](https://github.com/Giwi/giwisoft-scenarii/wiki/API) |
-| Pages, overview, run diff | [Dashboard](https://github.com/Giwi/giwisoft-scenarii/wiki/Dashboard) |
-| Local users, OIDC, TOTP, tokens | [Authentication](https://github.com/Giwi/giwisoft-scenarii/wiki/Authentication) |
-| SQLite/PostgreSQL, backups | [Storage](https://github.com/Giwi/giwisoft-scenarii/wiki/Storage) |
-| Full `settings.yml` reference | [Configuration](https://github.com/Giwi/giwisoft-scenarii/wiki/Configuration) |
-| Troubleshooting | [Troubleshooting](https://github.com/Giwi/giwisoft-scenarii/wiki/Troubleshooting) |
+| Installation and first run | [Installation](https://github.com/GiwiSoft/scenarii/wiki/Installation) |
+| First scenario walkthrough | [Getting Started](https://github.com/GiwiSoft/scenarii/wiki/Getting-Started) |
+| Scenario YAML, includes, conditions | [Scenarios](https://github.com/GiwiSoft/scenarii/wiki/Scenarios) |
+| HTTP and browser actions | [Actions](https://github.com/GiwiSoft/scenarii/wiki/Actions) |
+| Variables, secrets, extraction | [Variables and Secrets](https://github.com/GiwiSoft/scenarii/wiki/Variables-and-Secrets) |
+| Staging and production profiles | [Environments](https://github.com/GiwiSoft/scenarii/wiki/Environments) |
+| Cron, pause/resume, alert thresholds | [Scheduling](https://github.com/GiwiSoft/scenarii/wiki/Scheduling) |
+| Alert channels and webhook signing | [Notifications](https://github.com/GiwiSoft/scenarii/wiki/Notifications) |
+| GitHub/GitLab CI triggers | [Inbound Webhooks](https://github.com/GiwiSoft/scenarii/wiki/Webhooks) |
+| Endpoint reference and examples | [REST API](https://github.com/GiwiSoft/scenarii/wiki/API) |
+| Pages, overview, run diff | [Dashboard](https://github.com/GiwiSoft/scenarii/wiki/Dashboard) |
+| Local users, OIDC, TOTP, tokens | [Authentication](https://github.com/GiwiSoft/scenarii/wiki/Authentication) |
+| SQLite/PostgreSQL, backups | [Storage](https://github.com/GiwiSoft/scenarii/wiki/Storage) |
+| Full `settings.yml` reference | [Configuration](https://github.com/GiwiSoft/scenarii/wiki/Configuration) |
+| Troubleshooting | [Troubleshooting](https://github.com/GiwiSoft/scenarii/wiki/Troubleshooting) |
 
 ## Development
 
@@ -131,7 +145,7 @@ npm test           # backend build + all tests
 npm run lint       # tsc --noEmit
 ```
 
-Project layout and extension guides: [Development](https://github.com/Giwi/giwisoft-scenarii/wiki/Development).
+Project layout and extension guides: [Development](https://github.com/GiwiSoft/scenarii/wiki/Development).
 
 ## License
 

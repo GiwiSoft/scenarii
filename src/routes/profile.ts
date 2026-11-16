@@ -171,9 +171,18 @@ export async function handleForgotPassword(req: express.Request, res: express.Re
     return;
   }
   const username = await findUserByIdentifier(needle);
-  if (username) void deliverResetLink(username, await createPasswordReset(username));
-  else logger.info({}, 'Password recovery requested for an unknown identifier');
-  res.json({ status: 'sent', message: t('auth.reset_requested', lang) });
+  if (username) {
+    const origin = requestOrigin(req);
+    void deliverResetLink(username, await createPasswordReset(username), origin);
+  } else logger.info({}, 'Password recovery requested for an unknown identifier');
+  // With no email transport, the link only goes to the server log. Say so instead of
+  // promising an email that can never arrive. This reveals the server configuration,
+  // not whether the account exists.
+  const emailConfigured = !!getSettings().notifications?.email?.enabled;
+  res.json({
+    status: 'sent',
+    message: t(emailConfigured ? 'auth.reset_requested' : 'auth.reset_no_email', lang),
+  });
 }
 
 // Applies a recovery token. Single use: it is consumed on the first attempt, valid or not.
@@ -285,8 +294,15 @@ export function oidcManaged(): boolean {
 }
 
 // Emails the recovery link when an email channel is configured, logs it otherwise.
-async function deliverResetLink(username: string, token: string): Promise<void> {
-  const link = `/login?reset=${encodeURIComponent(token)}`;
+// Builds an absolute link origin, honouring a reverse proxy's forwarded headers.
+function requestOrigin(req: express.Request): string {
+  const proto = req.get('x-forwarded-proto')?.split(',')[0]?.trim() || req.protocol;
+  const host = req.get('x-forwarded-host')?.split(',')[0]?.trim() || req.get('host');
+  return host ? `${proto}://${host}` : '';
+}
+
+async function deliverResetLink(username: string, token: string, origin: string): Promise<void> {
+  const link = `${origin}/login?reset=${encodeURIComponent(token)}`;
   const email = getSettings().notifications?.email;
   const profile = await getProfile(username);
   if (email?.enabled && profile.email) {
