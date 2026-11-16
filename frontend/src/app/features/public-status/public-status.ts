@@ -119,7 +119,8 @@ export class PublicStatusComponent implements OnInit, OnDestroy {
             fill: true,
             tension: 0.3,
             borderWidth: 1.5,
-            pointRadius: 2,
+            pointRadius: 0,
+            pointHoverRadius: 0,
           }],
         },
         options: {
@@ -150,7 +151,8 @@ export class PublicStatusComponent implements OnInit, OnDestroy {
             fill: true,
             tension: 0.3,
             borderWidth: 1.5,
-            pointRadius: 2,
+            pointRadius: 0,
+            pointHoverRadius: 0,
           }],
         },
         options: {
