@@ -6,11 +6,9 @@ Scenarii runs scheduled checks, stores credentials and API tokens, and exposes a
 
 Do not open a public issue, discussion or pull request for a suspected vulnerability.
 
-Preferred channel: **GitHub private vulnerability reporting**
+Use **GitHub private vulnerability reporting**. This is the only reporting channel.
 
 <https://github.com/GiwiSoft/scenarii/security/advisories/new>
-
-Email: **security@giwi.fr**
 
 Include, when possible:
 
@@ -21,7 +19,7 @@ Include, when possible:
 - any planned public disclosure date;
 - a safe way to contact you.
 
-GitHub Security Advisories is the private channel for the report and the fix. We use it to discuss the issue, prepare the patch and publish a coordinated advisory when a fixed release is available. If you report by email, we will open a private advisory to keep the thread and the eventual disclosure together.
+GitHub Security Advisories is the private channel for the report and the fix. We use it to discuss the issue, prepare the patch and publish a coordinated advisory when a fixed release is available.
 
 ## Scope
 
