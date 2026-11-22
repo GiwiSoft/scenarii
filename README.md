@@ -147,6 +147,12 @@ npm run lint       # tsc --noEmit
 
 Project layout and extension guides: [Development](https://github.com/GiwiSoft/scenarii/wiki/Development).
 
+## Security
+
+Report vulnerabilities privately through [GitHub Security Advisories](https://github.com/GiwiSoft/scenarii/security/advisories/new) or `security@giwi.fr`. Do not open a public issue.
+
+[`SECURITY.md`](SECURITY.md) defines scope, supported versions, response targets and coordinated disclosure. CI publishes a CycloneDX SBOM with each release, and Dependabot alerts are enabled.
+
 ## License
 
 GPL-3.0. See [LICENSE](LICENSE).
